@@ -63,11 +63,15 @@ func Join(path0 string, path1 string) string {
 }
 
 // String pulls a string out of our io.Reader
-func String(r io.Reader) string {
+func String(r io.Reader) (string, error) {
 	buf := new(bytes.Buffer)
-	// TODO - make String return an error as well
-	_, _ = buf.ReadFrom(r)
-	return buf.String()
+	_, e := buf.ReadFrom(r)
+
+	if e == nil || e == io.EOF {
+		return buf.String(), nil
+	}
+
+	return buf.String(), e
 }
 
 func parseUint(s *string) uint {
