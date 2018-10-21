@@ -29,22 +29,20 @@ password := "password"
 c := gowebdav.NewClient(root, user, password)
 ```
 
-After you can use this `Client` to perform actions, described in [examples]() section.
-
-### Examples
+After you can use this `Client` to perform actions, described below.
 
 **NOTICE:** we will not check errors in examples, to focus you on the `gowebdav` library's code, but you should do it in your code!
 
-**Create path on a WebDAV server**
+### Create path on a WebDAV server
 ```go
 err := c.Mkdir("folder", 0644)
 ```
 In case you want to create several folders you can use `c.MkdirAll()`:
 ```go
-err := c.MkdirAll("folder", 0644)
+err := c.MkdirAll("folder/subfolder/subfolder2", 0644)
 ```
 
-**Get files list**
+### Get files list
 ```go
 files, _ := c.ReadDir("folder/subfolder")
 for _, file := range files {
@@ -53,7 +51,7 @@ for _, file := range files {
 }
 ```
 
-**Download file**
+### Download file to byte array
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
 localFilePath := "/tmp/webdav/file.txt"
@@ -62,6 +60,7 @@ bytes, _ := c.Read(webdavFilePath)
 ioutil.WriteFile(localFilePath, bytes, 0644)
 ```
 
+### Download file via reader
 Also you can use `c.ReadStream()` method:
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
@@ -75,7 +74,7 @@ defer file.Close()
 io.Copy(file, reader)
 ```
 
-**Upload file**
+### Upload file from byte array
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
 localFilePath := "/tmp/webdav/file.txt"
@@ -85,16 +84,18 @@ bytes, _ := ioutil.ReadFile(localFilePath)
 c.Write(webdavFilePath, bytes, 0644)
 ```
 
+### Upload file via writer
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
 localFilePath := "/tmp/webdav/file.txt"
 
 file, _ := os.Open(localFilePath)
+defer file.Close()
 
 c.WriteStream(webdavFilePath, file, 0644)
 ```
 
-**Get information about specified file/folder**
+### Get information about specified file/folder
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
 
@@ -103,7 +104,7 @@ info := c.Stat(webdavFilePath)
 fmt.Println(info)
 ```
 
-**Move file to another location**
+### Move file to another location
 ```go
 oldPath := "folder/subfolder/file.txt"
 newPath := "folder/subfolder/moved.txt"
@@ -112,7 +113,7 @@ isOverwrite := true
 c.Rename(oldPath, newPath, isOverwrite)
 ```
 
-**Copy file to another location**
+### Copy file to another location
 ```go
 oldPath := "folder/subfolder/file.txt"
 newPath := "folder/subfolder/file-copy.txt"
@@ -121,7 +122,7 @@ isOverwrite := true
 c.Copy(oldPath, newPath, isOverwrite)
 ```
 
-**Delete file**
+### Delete file
 ```go
 webdavFilePath := "folder/subfolder/file.txt"
 
