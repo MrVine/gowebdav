@@ -8,14 +8,14 @@ A golang WebDAV client library.
 
 ## Main features
 `gowebdav` library allows to perform following actions on the remote WebDAV server:
-* create path
-* get files list
-* download file
-* upload file
-* get information about specified file/folder
-* move file to another location
-* copy file to another location
-* delete file
+* [create path](#create-path-on-a-webdav-server)
+* [get files list](#get-files-list)
+* [download file](#download-file-to-byte-array)
+* [upload file](#upload-file-from-byte-array)
+* [get information about specified file/folder](#get-information-about-specified-filefolder)
+* [move file to another location](#move-file-to-another-location)
+* [copy file to another location](#copy-file-to-another-location)
+* [delete file](#delete-file)
 
 ## Usage
 
